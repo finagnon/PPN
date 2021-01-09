@@ -1,6 +1,5 @@
 *.DS_Store
-*/../main.c
-*/../.fixed_tools.c.swp
-*/../.main.c.swp
+src/.fixed_tools.c.swp
+src/.main.c.swp
 src/run
 src/main.c
