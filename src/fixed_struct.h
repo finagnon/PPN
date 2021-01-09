@@ -21,4 +21,10 @@ struct fixed32 {
   int8_t FRAC_PART;
 };
 
+struct fixed64 {
+  int64_t num;
+  int8_t INT_PART;
+  int8_t FRAC_PART;
+};
+
 #endif
