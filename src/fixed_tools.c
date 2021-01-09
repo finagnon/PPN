@@ -26,6 +26,15 @@ struct fixed16 float_to_fixed16(float num, int8_t FRAC_TARGET) {
   return f16;
 }
 
+struct fixed32 float_to_fixed32(float num, int8_t FRAC_TARGET) {
+  struct fixed32 f32 = {.num = (int32_t) (num * (1 << FRAC_TARGET)), .FRAC_PART=FRAC_TARGET, .INT_PART=CHAR_WL-FRAC_TARGET};
+  
+  if (f32.num > LONG_MAX_ENCODING) printf("OVERFLOW!!--CONVERSION\n");
+  else if (f32.num < -1 * LONG_MIN_ENCODING) printf("UNDERFLOW!!--CONVERSION\n");
+  printf("%f=%d (Q%d.%d)\n", num, f32.num, f32.INT_PART, f32.FRAC_PART);    
+  
+  return f32;
+}
 // Arithmetic Operations
 struct fixed8 fixed8_add(struct fixed8 a, struct fixed8 b) {
   struct fixed16 acc;
@@ -127,3 +136,63 @@ struct fixed16 fixed16_sub(struct fixed16 a, struct fixed16 b) {
   
   return fixed16_add(a, c);
 }
+
+
+struct fixed32 fixed32_add(struct fixed32 a, struct fixed32 b) {
+  struct fixed64 acc;
+
+  if (a.FRAC_PART == b.FRAC_PART) {
+   acc.num = a.num+b.num;
+   acc.FRAC_PART = a.FRAC_PART;
+   acc.INT_PART = a.INT_PART;
+  }
+
+  else if (a.FRAC_PART > b.FRAC_PART) {
+    int8_t shift = a.FRAC_PART - b.FRAC_PART;
+    acc.num = (a.num  + (b.num<<shift));
+    
+    if (acc.num > LONG_MAX_ENCODING) printf("OVERFLOW!!--ADDITION\n");
+    else if (acc.num < -1 * LONG_MIN_ENCODING) printf("UNDERFLOW!!--ADDITION\n");
+    
+    acc.num = (int32_t)acc.num;
+    acc.FRAC_PART = a.FRAC_PART;
+    acc.INT_PART = CHAR_WL - acc.FRAC_PART;
+  }
+
+  else {
+    int8_t shift = b.FRAC_PART - a.FRAC_PART;
+    acc.num = (b.num + (a.num<<shift));
+    
+    if (acc.num > LONG_MAX_ENCODING) printf("OVERFLOW!!--ADDITION\n");
+    else if (acc.num < -1 * LONG_MIN_ENCODING) printf("UNDERFLOW!!--ADDITION\n");
+    
+    acc.num = (int32_t)acc.num;
+    acc.FRAC_PART = b.FRAC_PART;
+    acc.INT_PART = CHAR_WL - acc.FRAC_PART;
+  }
+  
+  struct fixed32 result = {.num=acc.num, .FRAC_PART=acc.FRAC_PART, .INT_PART=acc.INT_PART};
+  printf("%d+%d=%d (Q%d.%d)\n", a.num, b.num, result.num, result.INT_PART, result.FRAC_PART);
+  
+  return result;
+}
+
+struct fixed32 fixed32_sub(struct fixed32 a, struct fixed32 b) {
+  struct fixed32 c = {.num = -b.num, .FRAC_PART=b.FRAC_PART, .INT_PART=b.INT_PART};
+  
+  return fixed32_add(a, c);
+}
+
+struct fixed32 fixed32_mul(struct fixed32 a, struct fixed32 b) {
+  struct fixed64 acc;
+  acc.num = ((int64_t)a.num*(int64_t)b.num);
+  acc.num += (1<<(a.FRAC_PART-1));
+  acc.FRAC_PART = a.FRAC_PART + b.FRAC_PART - CHAR_WL;
+  acc.INT_PART  = a.INT_PART  + b.INT_PART;
+  
+  struct fixed32 result = {.num=acc.num>>CHAR_WL, .FRAC_PART=acc.FRAC_PART, .INT_PART=acc.INT_PART};
+  printf("%d*%d=%d (Q%d.%d)\n", a.num, b.num, result.num, result.INT_PART, result.FRAC_PART);
+  
+  return result;
+}
+
