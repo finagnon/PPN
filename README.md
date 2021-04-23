@@ -1,8 +1,41 @@
-This is a floating-point to integer translator written in C used for the emulation of fixed-point arithmetic on 8/16/32-bit target word-length processors.<br />
-e.g.<br />
-<br />
-1.667 x 0.25 = 0.41675 (float value)<br />
-<br />
-1.667000 = 106 (Q2.6)<br />
-0.250000 = 32  (Q1.7)<br />
-106 x 32 = 13  (Q3.5) --> 0.40625 (float value)<br />
+* Nous Voudrions adapter notre code à celui de verificarlo, pour ce faire, nous considerons que verificarlo comme un template. la première étape serait de considérer les fonctions : 
+
+
+- interflop_add_float()
+
+- interflop_sub_float()
+
+- interflop_mul_flot
+
+et :
+
+
+- interflop_add_double()
+
+- interflop_sub_double()
+
+- interflop_mul_double()
+
+leurs implémentations sera remplacé par linplémentation des fonctions 
+
+
+- fixed32_add()
+
+- fixed32_sub()
+
+- fixed32_mu()
+
+et par : 
+
+- fixed64_add()
+
+- fixed64_sub()
+
+- fixed64_mul()
+
+
+La difficulter c'est qu'il n'est pas sûr que le compilateur prenne en compte un type _int128_t.
+il se trouve dans les "src".
+
+
+* Un algorithme pour gérer la division a été proposer dans les "resources".

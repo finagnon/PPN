@@ -1,0 +1,123 @@
+\documentclass[12 pt]{article}
+\usepackage[margin=0.8in]{geometry}
+\usepackage{graphicx}
+\usepackage{array}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{hyperref}
+\hypersetup{pdftex,colorlinks=true,allcolors=blue}
+\usepackage{hypcap}
+\setcounter{tocdepth}{3}
+\graphicspath{{./figs/}}
+
+\begin{document} 
+\bibliographystyle{abbrv}
+
+\title{Algorithme}
+\author{}
+\date{\parbox{\linewidth}{\centering%
+  \today\endgraf\bigskip
+  \vspace*{2 in}
+\vspace*{9 cm}
+{\centering
+\hspace*{-7.5 cm}Encadrant\hspace* {3cm}Dr. Matei Istoan \endgraf\medskip
+%\hspace*{-4.5 cm}Git Repo\hspace* {3.5cm}https://github.com/jctdrs/PPN \endgraf\medskip}}}
+\maketitle
+\newpage
+\tableofcontents
+\listoffigures
+\newpage
+
+
+
+
+
+
+
+
+
+\section{Algorithme de division }
+\quad Le but de cet algorithme c'est de pouvoir \'{e}ffectuer la division tout en \'{e}chappant au multiples cas d'exceptions ou r\'{e}duire d'\'{e}norme \'{e}cart d'erreur qu'il peut y avoir au cours de l'op\'{e}ration. Pour ce faire nous voudrions stock\'{e} les bits dans un Tableau ou nous pourrons acceder bit par bit.
+\qquad Il s'agira de faire une soustraction successive du diviseur de la dividende .
+Le Q format ici est le nombre de bits fractionnaire.\\
+
+Algorithme : \\
+\\
+Variable : numerateur [nnombre de bits ] : Entier,\\ Resultat[taille numerateur + denominateur] : Entier;\\ 
+
+
+Variable : denominateur[nomre de bits] : Entier, a : reel, b : reel,\\
+
+
+$Q_{numerateur}$, $Q_{denominateur}$;\\
+\\
+Debut :
+
+a $\leftarrow a*2^{(Q_{numerateur} + Q_{denominateur})}$;\\
+
+b $\leftarrow b*2^{(Q_{numerateur} + Q_{denominateur})}$;\\
+
+ Si (ab$<$b) Alors\\
+
+\quad \quad Tant-que (a$<$b) Faire \\
+
+\qquad \qquad a $\leftarrow a*2$\\
+
+\qquad \qquad  Resultat[i] = 0;\\
+
+\qquad \qquad i++;\\
+
+
+
+ \qquad FinTantQue\\
+
+SiNon \\
+
+
+
+
+
+
+\qquad \qquad TantQue a-b $>$ 0 Alors\\
+
+\qquad \qquad \qquad Resulta[i] = 1 ;\\
+
+\qquad \qquad FinTantQue\\
+
+
+
+FinSi \\
+
+Si Resultat[0] = 0;\\
+
+
+\qquad Pour i \in [0, tailleBit];
+
+\qquad \qquad \qquad Resultat$ = 0. Resulta[i]$;
+
+SiNon\\
+
+
+\qquad Pour i \in [0, tailleBit];\\
+
+
+ \qquad \qquad \qquad Resultat = Resultat[i];\\
+
+ 
+FinSi\\
+
+ Lire(resultat);\\
+Fin
+
+
+
+ 
+
+
+
+
+\end{document}\\
+
+
